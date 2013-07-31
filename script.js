@@ -65,18 +65,28 @@ $(document).ready(function() {
 						  "<br>Deadlift 1RM = " + Math.round(dead1RM) + "lbs 5RM = " + Math.round(dead5RM) +
 						  "<br>Row 1RM = " + Math.round(row1RM) + "lbs 5RM = " + Math.round(row5RM) +
 						  "<br>Incline 1RM = " + Math.round(incline1RM) + "lbs 5RM = " + Math.round(incline5RM) + "<br>");
+			
 
-			$('div').append('<br><br><table><tr><td colspan="3">Day 1</td></tr><tr>'+
-							 tableSpitter([5,5,5,5,5], squat5RM, 4, 1, "Squat")+
-							 tableSpitter([5,5,5,5,5], bench5RM, 4, 1, "Bench")+
-							 tableSpitter([5,5,5,5,5], row5RM, 4, 1, "Row")+
+			for (var week = 1; week <= 12; week++) {
+			//$('div').append('<h1> Week ' + week + "</h1><br><br><br>");
+			$('div').append('<table class="mainTable"><tr><td colspan="3"><h3>Week ' + week + ' - ' + 'Monday</h3></td></tr>'+
+							 tableSpitter([5,5,5,5,5], (squat5RM*0.9+(week*increment))*0.98, 4, 1, "Squat")+
+							 tableSpitter([5,5,5,5,5], (bench5RM*0.9+(week*increment))*0.98, 4, 1, "Bench")+
+							 tableSpitter([5,5,5], (dead5RM*0.9+(week*increment))*0.98, 2, 1, "Deadlift")+
 							 mondayAssistance());
 
-			$('div').append('<br><br><table><tr><td colspan="3">Day 2</td></tr><tr>'+
-							 tableSpitter([5,5,5,5,5], squat5RM, 4, 1, "Squat")+
-							 tableSpitter([5,5,5,5,5], bench5RM, 4, 1, "Bench")+
-							 tableSpitter([5,5,5,5,5], row5RM, 4, 1, "Row")+
-							 mondayAssistance());
+			$('div').append('<table class="mainTable"><tr><td colspan="3"><h3>Week ' + week + ' - ' + 'Wednesday</h3></td></tr><tr>'+
+							 tableSpitter([5,5,5], (squat5RM*0.8)+(week*increment), 2, 1, "Squat")+
+							 tableSpitter([5,5,5,5,5], incline5RM+(week*increment), 4, 1, "Incline Bench")+
+							 tableSpitter([5,5,5,5,5], row5RM+(week*increment), 4, 1, "Row")+
+							 wedAssistance());
+
+			$('div').append('</td><td><table class="mainTable"><tr><td colspan="3"><h3>Week ' + week + ' - ' + 'Friday</h3></td></tr><tr>'+
+							 tableSpitter([5], squat5RM*1.025+(week*increment), 0, 1, "Squat")+
+							 tableSpitter([5], bench5RM*1.025+(week*increment), 0, 1, "Bench")+
+							 tableSpitter([3], dead5RM*1.025+(week*increment), 0, 1, "Deadlift")+
+							 friAssistance());
+			};
 		};
 	});
 });
@@ -112,11 +122,11 @@ function incRound(weight, inc) {
 };
 
 function calcInt(weight, set, interval, increment, week) {
-	return(incRound((weight*(1-set*interval/100))*((week*0.025)+0.89), increment));
+	return(incRound((weight*(1-set*interval/100))*((week*0.025)+0.9), increment));
 };
 
 function tableSpitter(reps, lift, sets, week, excercise) {
-	var string = '<td><table><tr><td colspan="2">' + excercise + '</td></tr><tr><td>Reps</td><td>Weight</td></tr>';
+	var string = '<td><table class="subTable"><tr><td colspan="2">' + excercise + '</td></tr><tr><td>Reps</td><td>Weight</td></tr>';
 	for (var i = sets; i >= 0; i--) {
 		string += '<tr><td>' + reps[i] + '</td><td>' + calcInt(lift, i, interval, increment, week) + '</td></tr>';
 	};
@@ -126,4 +136,12 @@ function tableSpitter(reps, lift, sets, week, excercise) {
 
 function mondayAssistance() {
 	return('<tr><td>Assistance</td><td colspan="2">2 Sets of Weighted Hypers<br>4 Sets of Weighted Situps</td></tr></table>');
+};
+
+function wedAssistance() {
+	return('<tr><td>Assistance</td><td colspan="2">3 sets of sit-ups</td></tr></table>');
+};
+
+function friAssistance() {
+	return('<tr><td>Assistance</td><td colspan="2">3 sets dips<br>3 sets barbell curls<br>3 sets triceps extensions</td></tr></table>');
 };

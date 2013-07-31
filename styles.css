@@ -1,9 +1,36 @@
-table {
-	border: solid 1px black;
+body {
+	background-color: rgb(100,100,100);
 }
 
-td {
-	padding: 5px 10px 5px 10px;
+.mainTable {
 	border: solid 1px black;
+	margin: 0;
 	text-align: center;
+	vertical-align: top;
+	float: left;
+}
+
+.mainTable td {
+	border: none;
+	vertical-align: top;
+}
+
+.subTable {
+	border: 1px solid black;
+	background: rgba(0,0,0,0.1);
+}
+
+.subTable td {
+	border: 1px solid rgba(0,0,0,0.1);
+	text-align: center;
+}
+
+input {
+	border-radius: 5px;
+
+	padding: 5px 8px;
+}
+
+.field {
+	width: 4%;
 }
